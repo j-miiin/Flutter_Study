@@ -67,26 +67,46 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             decoration: InputDecoration(
-                hintText: "영화 제목을 검색해주세요",
+                hintText: "영화 제목을 검색해주세요.",
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.search_outlined)),
           ),
         ),
-        ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: dataList.length,
-          itemBuilder: (context, index) {
-            return Container(
-              height: 100,
-              child: Stack(
-                children: [
-                  Text(dataList[index].values.first),
-                ],
-              ),
-            );
-          },
-          separatorBuilder: (context, index) => const Divider(),
-        )
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(4),
+            itemCount: dataList.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.network(
+                      dataList[index]['imgUrl'],
+                      width: double.infinity,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                    Container(
+                      color: Colors.black.withOpacity(0.6),
+                      width: double.infinity,
+                      height: 200,
+                    ),
+                    Text(
+                      dataList[index]['category'],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
+                  ],
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => const Divider(
+              height: 1,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ]),
     );
   }
