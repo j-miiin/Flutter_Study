@@ -128,78 +128,16 @@ class SecondTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-          ),
-          elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.show_chart,
-                color: Colors.white,
-              ),
-            ),
-          ],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.blue[300]!, Colors.blue[900]!],
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.blue, Colors.indigo],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter),
-          ),
-          child: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Shazam하려면 탭하세요',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              SizedBox(height: 40),
-              Stack(alignment: Alignment.center, children: [
-                Container(
-                  width: 179,
-                  height: 178,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.white),
-                ),
-                Image.network(
-                  'https://user-images.githubusercontent.com/62470991/230337252-da4f4bfd-10e8-4e8e-8c7a-771ec2cd06b9.png',
-                  width: 180,
-                  height: 180,
-                  fit: BoxFit.cover,
-                  color: Colors.blue.withOpacity(0.8),
-                ),
-              ]),
-              SizedBox(height: 70),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.blue),
-                child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.search_outlined,
-                      color: Colors.white,
-                    )),
-              )
-            ],
-          )),
-        ));
+      ),
+      child: SafeArea(child: Text("hello")),
+    );
   }
 }
 
