@@ -58,11 +58,18 @@ class _HomePageState extends State<HomePage> {
                   itemCount: memoList.length,
                   itemBuilder: ((context, index) {
                     Memo memo = memoList[index]; // index에 해당하는 memo 가져오기
+                    bool isChecked = memo.isChecked;
                     return ListTile(
                       // 메모 고정 아이콘
                       leading: IconButton(
-                        icon: Icon(CupertinoIcons.pin),
-                        onPressed: () {},
+                        icon: isChecked
+                            ? Icon(CupertinoIcons.pin_fill)
+                            : Icon(CupertinoIcons.pin),
+                        onPressed: () {
+                          isChecked = !isChecked;
+                          memoService.updateMemoChecked(
+                              index: index, isChecked: isChecked);
+                        },
                       ),
                       // 메모 내용 (최대 3줄까지 보이도록)
                       title: Text(
@@ -70,9 +77,9 @@ class _HomePageState extends State<HomePage> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      onTap: () {
+                      onTap: () async {
                         // 아이템 클릭 시
-                        Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => DetailPage(
@@ -80,21 +87,30 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         );
+
+                        if (memo.content == "") {
+                          memoService.deleteMemo(index: index);
+                        }
                       },
                     );
                   })),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () {
+            onPressed: () async {
               // + 버튼 클릭시 메모 생성 및 수정 페이지로 이동
               memoService.createMemo(content: "");
-              Navigator.push(
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) =>
                       DetailPage(index: memoService.memoList.length - 1),
                 ),
               );
+
+              Memo memo = memoService.memoList[memoService.memoList.length - 1];
+              if (memo.content == "") {
+                memoService.deleteMemo(index: memoService.memoList.length - 1);
+              }
             },
           ),
         );
