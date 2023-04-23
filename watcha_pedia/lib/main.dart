@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'book.dart';
 import 'book_service.dart';
 
-void main() {
+late SharedPreferences prefs;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
+
   runApp(
     MultiProvider(
       providers: [
@@ -134,6 +140,15 @@ class BookTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BookService bookService = context.read<BookService>();
+    List authors = book.authors;
+    int authorsCnt = authors.length;
+    String authorsStr = "";
+    for (int i = 0; i < authorsCnt; i++) {
+      if (i != authorsCnt - 1 && i != 0) {
+        authorsStr += ",";
+      }
+      authorsStr += authors[i];
+    }
 
     return ListTile(
       onTap: () {
@@ -155,7 +170,7 @@ class BookTile extends StatelessWidget {
         style: TextStyle(fontSize: 16),
       ),
       subtitle: Text(
-        book.subtitle,
+        "$authorsStr\n${book.publishedDate}",
         style: TextStyle(color: Colors.grey),
       ),
       trailing: IconButton(
